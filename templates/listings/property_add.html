@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Property</title>
+</head>
+<body>
+    <h1>Add a New Property</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- This renders the form fields -->
+        <button type="submit">Add Property</button>
+    </form>
+</body>
+</html>

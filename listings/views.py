@@ -1,17 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm
+from .forms import SignUpForm, PropertyAddForm  # Import both forms
 from .models import Property
-
-def sign_up(request):
-    return render(request, 'listings/signup.html')
-
-def log_in(request):
-    return render(request, 'listings/login.html')
-
-def home(request):
-    properties = Property.objects.all()
-    return render(request, 'listings/home.html', {'properties': properties})
 
 def sign_up(request):
     if request.method == 'POST':
@@ -28,4 +18,22 @@ def sign_up(request):
         form = SignUpForm()
     return render(request, 'listings/signup.html', {'form': form})
 
+def log_in(request):
+    return render(request, 'listings/signup.html')
 
+def property_add(request):
+    if request.method == 'POST':
+        form = PropertyAddForm(request.POST)
+        if form.is_valid():
+            property = form.save(commit=False)
+            property.user = request.user  # Attach the current user to the property
+            property.save()
+            return redirect('home')  # Redirect to home after property is added
+    else:
+        form = PropertyAddForm()  # Use PropertyAddForm here, not SignUpForm
+    return render(request, 'listings/property_add.html', {'form': form})
+
+
+def home(request):
+    properties = Property.objects.all()
+    return render(request, 'listings/home.html', {'properties': properties})
