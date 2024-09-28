@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Advertisements</title>
+</head>
+<body>
+    <h1>All Advertisements</h1>
+    <div>
+        {% for property in properties %}
+        <div class="property">
+            <h2>{{ property.title }}</h2>
+            <p>Description: {{ property.description }}</p>
+            <p>Price: ${{ property.price }}</p>
+        </div>
+        <hr>
+        {% empty %}
+        <p>No advertisements available.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
